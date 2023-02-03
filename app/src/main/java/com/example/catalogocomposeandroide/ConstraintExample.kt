@@ -94,7 +94,6 @@ fun ConstraintBarrier() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun ConstraintChainExample() {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
