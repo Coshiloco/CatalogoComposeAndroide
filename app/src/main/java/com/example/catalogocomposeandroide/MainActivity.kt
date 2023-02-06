@@ -6,10 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MyTextComponent()
+                    MyTextFieldComponent()
                 }
             }
         }
@@ -66,9 +63,25 @@ fun MyStateExample() {
 }
 
 
+
+@Composable
+fun myTextFieldAdvance() {
+    var mytext by rememberSaveable { mutableStateOf("")}
+    TextField(value = mytext, onValueChange = {
+         mytext = if(it.contains("a")) {
+             it.replace("a", "")
+         } else {
+             it
+         }
+    },
+    label = { Text(text = "Introduce tu nombre")})
+}
+
+
 @Composable
 fun MyTextFieldComponent() {
-
+    var myText by rememberSaveable { mutableStateOf("")}
+    TextField(value = myText, onValueChange = {myText = it})
 }
 
 
@@ -92,6 +105,6 @@ fun MyTextComponent() {
 @Composable
 fun DefaultPreview() {
     CatalogoComposeAndroideTheme {
-        MyTextComponent()
+        MyTextFieldComponent()
     }
 }
