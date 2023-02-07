@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.catalogocomposeandroide.ui.theme.CatalogoComposeAndroideTheme
 
@@ -34,7 +36,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MyTextFieldComponent()
+                    var myText by rememberSaveable { mutableStateOf("Pablo")}
+
+                    MyTextFieldState(myText) {
+                        myText = it
+                    }
                 }
             }
         }
@@ -63,6 +69,20 @@ fun MyStateExample() {
 }
 
 
+@Composable
+fun MyTexFieldOUtLined() {
+    var MyText by rememberSaveable { mutableStateOf("")}
+
+    OutlinedTextField(value = MyText,
+        modifier = Modifier.padding(24.dp),
+        label = { Text(text = "Holita")},
+        onValueChange = {MyText = it},
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.Magenta,
+            unfocusedBorderColor = Color.Blue
+        ))
+}
+
 
 @Composable
 fun myTextFieldAdvance() {
@@ -82,6 +102,11 @@ fun myTextFieldAdvance() {
 fun MyTextFieldComponent() {
     var myText by rememberSaveable { mutableStateOf("")}
     TextField(value = myText, onValueChange = {myText = it})
+}
+
+@Composable
+fun MyTextFieldState(name: String, onValueChanged: (String) -> Unit) {
+    TextField(value = name, onValueChange = {onValueChanged(it)})
 }
 
 
@@ -105,6 +130,10 @@ fun MyTextComponent() {
 @Composable
 fun DefaultPreview() {
     CatalogoComposeAndroideTheme {
-        MyTextFieldComponent()
+        var myText by rememberSaveable { mutableStateOf("Pablo")}
+
+        MyTextFieldState(myText) {
+            myText = it
+        }
     }
 }
