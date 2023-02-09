@@ -3,6 +3,7 @@ package com.example.catalogocomposeandroide
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,13 +37,31 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    var myText by rememberSaveable { mutableStateOf("Pablo")}
+/*                    var myText by rememberSaveable { mutableStateOf("Pablo")}
 
                     MyTextFieldState(myText) {
                         myText = it
-                    }
+                    }*/
+                    MyButtonExample()
                 }
             }
+        }
+    }
+}
+
+
+@Composable
+fun MyButtonExample() {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(24.dp)) {
+        Button(onClick = { /*TODO*/ },
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Magenta,
+        contentColor = Color.Blue),
+        border = BorderStroke(5.dp,
+        Color.Green)
+        ) {
+            Text(text = "hola")
         }
     }
 }
@@ -130,10 +149,11 @@ fun MyTextComponent() {
 @Composable
 fun DefaultPreview() {
     CatalogoComposeAndroideTheme {
-        var myText by rememberSaveable { mutableStateOf("Pablo")}
+/*        var myText by rememberSaveable { mutableStateOf("Pablo")}
 
         MyTextFieldState(myText) {
             myText = it
-        }
+        }*/
+        MyButtonExample()
     }
 }
