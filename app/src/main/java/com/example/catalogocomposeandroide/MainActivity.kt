@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     MyTextFieldState(myText) {
                         myText = it
                     }*/
-                    MyIcon()
+                    MyProgressbar()
                 }
             }
         }
@@ -103,6 +103,44 @@ fun MyButtonExample() {
     }
 }
 
+
+@Composable
+fun MyProgressAdvance() {
+
+}
+
+@Composable
+fun MyProgressbar() {
+
+    var showLoading by rememberSaveable { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .padding(24.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (showLoading) {
+            CircularProgressIndicator(
+                color = Color.Red,
+                strokeWidth = 10.dp
+            )
+            LinearProgressIndicator(
+                modifier = Modifier.padding(top = 32.dp),
+                color = Color.Red,
+                backgroundColor = Color.Green
+            )
+        }
+        OutlinedButton(
+            modifier = Modifier.padding(15.dp),
+            onClick = { showLoading = !showLoading }) {
+            Text(text = "Cargar perfil")
+        }
+    }
+}
+
+
 @Composable
 fun MyIcon() {
     Icon(
@@ -114,11 +152,13 @@ fun MyIcon() {
 
 @Composable
 fun MyImageAdvance() {
-    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_background),
         contentDescription = "ejemplo",
         modifier = Modifier.clip(RoundedCornerShape(25f))
     )
-    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_background),
         contentDescription = "ejemplo",
         modifier = Modifier
             .clip(CircleShape)
@@ -132,7 +172,8 @@ fun MyImageAdvance() {
 
 @Composable
 fun MyImage() {
-    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_background),
         contentDescription = "ejemplo",
         alpha = 0.5f
     )
@@ -241,6 +282,6 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
-        MyIcon()
+        MyProgressbar()
     }
 }
