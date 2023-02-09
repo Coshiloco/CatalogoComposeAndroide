@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -52,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     MyTextFieldState(myText) {
                         myText = it
                     }*/
-                    MyProgressbar()
+                    MySwitch()
                 }
             }
         }
@@ -103,10 +100,98 @@ fun MyButtonExample() {
     }
 }
 
+@Composable
+fun MyTextBoxWithText() {
+    var checkCheckedBox by rememberSaveable {mutableStateOf(false)}
+
+    Row(
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Checkbox(checked = checkCheckedBox, onCheckedChange = {
+            checkCheckedBox = !checkCheckedBox
+        })
+    }
+}
+
+@Composable
+fun MyCheckBox() {
+    var marcadorCheckBoxes by rememberSaveable { mutableStateOf(false)}
+
+    Checkbox(checked = marcadorCheckBoxes, onCheckedChange = {
+        marcadorCheckBoxes = !marcadorCheckBoxes
+    },
+    enabled = true,
+    colors = CheckboxDefaults.colors(
+        checkedColor = Color.Red,
+        uncheckedColor = Color.Yellow,
+        checkmarkColor = Color.Blue
+    )
+    )
+}
+
+@Composable
+fun MySwitch() {
+    var stateswitchbar by rememberSaveable { mutableStateOf(true) }
+
+    Switch(
+        checked = stateswitchbar, onCheckedChange = {
+            stateswitchbar = !stateswitchbar
+        },
+        enabled = true,
+        colors = SwitchDefaults.colors(
+            uncheckedThumbColor = Color.Red,
+            checkedThumbColor = Color.Green,
+            uncheckedTrackColor = Color.Magenta,
+            checkedTrackColor = Color.Cyan,
+            checkedTrackAlpha = 0.5f,
+            uncheckedTrackAlpha = 0.3f,
+            disabledCheckedThumbColor = Color.LightGray,
+            disabledCheckedTrackColor = Color.Yellow,
+            disabledUncheckedThumbColor = Color.White,
+            disabledUncheckedTrackColor = Color.Gray
+        )
+    )
+}
+
 
 @Composable
 fun MyProgressAdvance() {
 
+    var controlProgress by rememberSaveable { mutableStateOf(0f) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(15.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator(
+            progress = controlProgress,
+            color = Color.Red,
+            strokeWidth = 10.dp
+        )
+
+        LinearProgressIndicator(
+            modifier = Modifier.padding(top = 32.dp),
+            progress = controlProgress,
+            color = Color.Red,
+            backgroundColor = Color.Green
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp)
+        ) {
+            OutlinedButton(onClick = { controlProgress += 0.1f }) {
+                Text(text = "Incrementar progress bar")
+            }
+            OutlinedButton(onClick = { controlProgress -= 0.1f }) {
+                Text(text = "Decrementar progress bar")
+            }
+        }
+    }
 }
 
 @Composable
@@ -282,6 +367,6 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
-        MyProgressbar()
+        MySwitch()
     }
 }
