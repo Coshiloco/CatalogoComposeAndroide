@@ -1,6 +1,7 @@
 package com.example.catalogocomposeandroide
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -18,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -52,16 +54,43 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyButtonExample() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(24.dp)) {
-        Button(onClick = { /*TODO*/ },
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Magenta,
-        contentColor = Color.Blue),
-        border = BorderStroke(5.dp,
-        Color.Green)
+    var enabled by rememberSaveable { mutableStateOf(true) }
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+    ) {
+        Button(
+            onClick = { enabled = !enabled },
+            enabled = enabled,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Magenta,
+                contentColor = Color.Blue,
+                disabledBackgroundColor = Color.Green,
+                disabledContentColor = Color.Red
+            ),
+            border = BorderStroke(
+                5.dp,
+                Color.Green
+            )
         ) {
             Text(text = "hola")
+        }
+        OutlinedButton(
+            onClick = { enabled = !enabled },
+            enabled = enabled,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Magenta,
+                contentColor = Color.Blue,
+                disabledBackgroundColor = Color.Green,
+                disabledContentColor = Color.Red
+            )
+        ) {
+            Text(text = "Outlined Button hola")
+        }
+        TextButton(onClick = { /*TODO*/ }) {
+            Text(text = "Soy un text button")
         }
     }
 }
@@ -75,12 +104,14 @@ fun Greeting(name: String) {
 @Composable
 fun MyStateExample() {
 
-    var counter by rememberSaveable { mutableStateOf(0)}
+    var counter by rememberSaveable { mutableStateOf(0) }
 
-    Column(modifier = Modifier.fillMaxSize(),
-    verticalArrangement = Arrangement.Center,
-    horizontalAlignment = Alignment.CenterHorizontally) {
-        Button(onClick = { counter +=1 }) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { counter += 1 }) {
             Text(text = "Pulsar")
         }
         Text(text = "He sido pulsado ${counter} veces")
@@ -90,42 +121,44 @@ fun MyStateExample() {
 
 @Composable
 fun MyTexFieldOUtLined() {
-    var MyText by rememberSaveable { mutableStateOf("")}
+    var MyText by rememberSaveable { mutableStateOf("") }
 
-    OutlinedTextField(value = MyText,
+    OutlinedTextField(
+        value = MyText,
         modifier = Modifier.padding(24.dp),
-        label = { Text(text = "Holita")},
-        onValueChange = {MyText = it},
+        label = { Text(text = "Holita") },
+        onValueChange = { MyText = it },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Color.Magenta,
             unfocusedBorderColor = Color.Blue
-        ))
+        )
+    )
 }
 
 
 @Composable
 fun myTextFieldAdvance() {
-    var mytext by rememberSaveable { mutableStateOf("")}
+    var mytext by rememberSaveable { mutableStateOf("") }
     TextField(value = mytext, onValueChange = {
-         mytext = if(it.contains("a")) {
-             it.replace("a", "")
-         } else {
-             it
-         }
+        mytext = if (it.contains("a")) {
+            it.replace("a", "")
+        } else {
+            it
+        }
     },
-    label = { Text(text = "Introduce tu nombre")})
+        label = { Text(text = "Introduce tu nombre") })
 }
 
 
 @Composable
 fun MyTextFieldComponent() {
-    var myText by rememberSaveable { mutableStateOf("")}
-    TextField(value = myText, onValueChange = {myText = it})
+    var myText by rememberSaveable { mutableStateOf("") }
+    TextField(value = myText, onValueChange = { myText = it })
 }
 
 @Composable
 fun MyTextFieldState(name: String, onValueChanged: (String) -> Unit) {
-    TextField(value = name, onValueChange = {onValueChanged(it)})
+    TextField(value = name, onValueChange = { onValueChanged(it) })
 }
 
 
@@ -137,10 +170,21 @@ fun MyTextComponent() {
         Text(text = "Esto es un ejemplo", fontWeight = FontWeight.ExtraBold)
         Text(text = "Esto es un ejemplo", fontWeight = FontWeight.Light)
         Text(text = "Esto es un ejemplo", style = TextStyle(fontFamily = FontFamily.Cursive))
-        Text(text = "Esto es un ejemplo", style = TextStyle(textDecoration = TextDecoration.LineThrough))
-        Text(text = "Esto es un ejemplo", style = TextStyle(textDecoration = TextDecoration.Underline))
-        Text(text = "Esto es un ejemplo", style = TextStyle(textDecoration = TextDecoration.combine(
-            listOf(TextDecoration.LineThrough, TextDecoration.Underline))))
+        Text(
+            text = "Esto es un ejemplo",
+            style = TextStyle(textDecoration = TextDecoration.LineThrough)
+        )
+        Text(
+            text = "Esto es un ejemplo",
+            style = TextStyle(textDecoration = TextDecoration.Underline)
+        )
+        Text(
+            text = "Esto es un ejemplo", style = TextStyle(
+                textDecoration = TextDecoration.combine(
+                    listOf(TextDecoration.LineThrough, TextDecoration.Underline)
+                )
+            )
+        )
         Text(text = "Esto es un ejemplo", fontSize = 15.sp)
     }
 }
