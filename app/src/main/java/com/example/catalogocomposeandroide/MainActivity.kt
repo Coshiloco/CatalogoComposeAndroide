@@ -5,11 +5,17 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,8 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     MyTextFieldState(myText) {
                         myText = it
                     }*/
-                    MyButtonExample()
+                    MyIcon()
                 }
             }
         }
@@ -93,6 +101,41 @@ fun MyButtonExample() {
             Text(text = "Soy un text button")
         }
     }
+}
+
+@Composable
+fun MyIcon() {
+    Icon(
+        imageVector = Icons.Rounded.Star,
+        contentDescription = "IconoEjemplo",
+        tint = Color.Red
+    )
+}
+
+@Composable
+fun MyImageAdvance() {
+    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+        contentDescription = "ejemplo",
+        modifier = Modifier.clip(RoundedCornerShape(25f))
+    )
+    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+        contentDescription = "ejemplo",
+        modifier = Modifier
+            .clip(CircleShape)
+            .border(
+                5.dp,
+                Color.Red,
+                CircleShape
+            )
+    )
+}
+
+@Composable
+fun MyImage() {
+    Image(painter = painterResource(id = R.drawable.ic_launcher_background),
+        contentDescription = "ejemplo",
+        alpha = 0.5f
+    )
 }
 
 
@@ -198,6 +241,6 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
-        MyButtonExample()
+        MyIcon()
     }
 }
