@@ -49,10 +49,37 @@ class MainActivity : ComponentActivity() {
                     MyTextFieldState(myText) {
                         myText = it
                     }*/
-                    MySwitch()
+                    var myOptions = getOptions(titles = listOf(
+                        "Aris",
+                        "Ejemplo",
+                        "Pablo",
+                        "MacDonalls",
+                        "De locos",
+                        "Que cojones"
+                    ))
+                    Column {
+                        myOptions.forEach {
+                            MyTextBoxWithTextCompleted(it)
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun getOptions(titles: List<String>): List<CheckInfo> {
+    return titles.map {
+        var status by rememberSaveable { mutableStateOf(false) }
+        CheckInfo(
+            title = it,
+            selected = status,
+            onCheckedChange = { mynewStatus ->
+                status = mynewStatus
+            }
+        )
     }
 }
 
@@ -100,9 +127,22 @@ fun MyButtonExample() {
     }
 }
 
+
+@Composable
+fun MyTextBoxWithTextCompleted(checkInfo: CheckInfo) {
+
+    Row(modifier = Modifier.padding(8.dp)) {
+        Checkbox(checked = checkInfo.selected, onCheckedChange = {
+            checkInfo.onCheckedChange(!checkInfo.selected)
+        })
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = checkInfo.title)
+    }
+}
+
 @Composable
 fun MyTextBoxWithText() {
-    var checkCheckedBox by rememberSaveable {mutableStateOf(false)}
+    var checkCheckedBox by rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = Modifier.padding(8.dp)
@@ -110,22 +150,25 @@ fun MyTextBoxWithText() {
         Checkbox(checked = checkCheckedBox, onCheckedChange = {
             checkCheckedBox = !checkCheckedBox
         })
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = "Ejemplo Uno")
     }
 }
 
 @Composable
 fun MyCheckBox() {
-    var marcadorCheckBoxes by rememberSaveable { mutableStateOf(false)}
+    var marcadorCheckBoxes by rememberSaveable { mutableStateOf(false) }
 
-    Checkbox(checked = marcadorCheckBoxes, onCheckedChange = {
-        marcadorCheckBoxes = !marcadorCheckBoxes
-    },
-    enabled = true,
-    colors = CheckboxDefaults.colors(
-        checkedColor = Color.Red,
-        uncheckedColor = Color.Yellow,
-        checkmarkColor = Color.Blue
-    )
+    Checkbox(
+        checked = marcadorCheckBoxes, onCheckedChange = {
+            marcadorCheckBoxes = !marcadorCheckBoxes
+        },
+        enabled = true,
+        colors = CheckboxDefaults.colors(
+            checkedColor = Color.Red,
+            uncheckedColor = Color.Yellow,
+            checkmarkColor = Color.Blue
+        )
     )
 }
 
@@ -367,6 +410,5 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
-        MySwitch()
     }
 }
