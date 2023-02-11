@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -49,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     MyTextFieldState(myText) {
                         myText = it
                     }*/
-                    var myOptions = getOptions(titles = listOf(
+/*                    var myOptions = getOptions(titles = listOf(
                         "Aris",
                         "Ejemplo",
                         "Pablo",
@@ -61,11 +62,25 @@ class MainActivity : ComponentActivity() {
                         myOptions.forEach {
                             MyTextBoxWithTextCompleted(it)
                         }
-                    }
+                    }*/
+                    MyTrisStatusCheckBox()
                 }
             }
         }
     }
+}
+
+
+@Composable
+fun MyTrisStatusCheckBox() {
+    var status by rememberSaveable { mutableStateOf(ToggleableState.Off)}
+    TriStateCheckbox(state = status, onClick = {
+        status = when(status) {
+            ToggleableState.On -> ToggleableState.Off
+            ToggleableState.Off -> ToggleableState.Indeterminate
+            ToggleableState.Indeterminate -> ToggleableState.On
+        }
+    })
 }
 
 
@@ -410,5 +425,6 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
+        MyTrisStatusCheckBox()
     }
 }
