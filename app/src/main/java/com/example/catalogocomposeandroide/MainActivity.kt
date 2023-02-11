@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CatalogoComposeAndroideTheme {
+                var selected by rememberSaveable { mutableStateOf("Pablo") }
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -63,7 +64,9 @@ class MainActivity : ComponentActivity() {
                             MyTextBoxWithTextCompleted(it)
                         }
                     }*/
-                    MyTrisStatusCheckBox()
+                    Column {
+                        MyRadioButtonList(selected) { selected = it }
+                    }
                 }
             }
         }
@@ -72,10 +75,51 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
+fun MyRadioButtonList(name: String, onItemSelected:(String) -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            RadioButton(
+                selected = name == "Pablo", onClick = { onItemSelected("Pablo") })
+            Text(text = "Pablo", modifier = Modifier.padding(12.dp))
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            RadioButton(
+                selected = name == "Aris", onClick = { onItemSelected("Aris") })
+            Text(text = "Aris", modifier = Modifier.padding(12.dp))
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            RadioButton(
+                selected = name == "Pepe", onClick = { onItemSelected("Pepe") })
+            Text(text = "Pepe", modifier = Modifier.padding(12.dp))
+        }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            RadioButton(
+                selected = name == "Manuel", onClick = { onItemSelected("Manuel") })
+            Text(text = "Manuel", modifier = Modifier.padding(12.dp))
+        }
+    }
+}
+
+@Composable
+fun MyRadioButton() {
+    Row(Modifier.fillMaxWidth()) {
+        RadioButton(
+            selected = false, onClick = { },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = Color.Red,
+                unselectedColor = Color.Yellow,
+                disabledColor = Color.Green
+            )
+        )
+    }
+}
+
+
+@Composable
 fun MyTrisStatusCheckBox() {
-    var status by rememberSaveable { mutableStateOf(ToggleableState.Off)}
+    var status by rememberSaveable { mutableStateOf(ToggleableState.Off) }
     TriStateCheckbox(state = status, onClick = {
-        status = when(status) {
+        status = when (status) {
             ToggleableState.On -> ToggleableState.Off
             ToggleableState.Off -> ToggleableState.Indeterminate
             ToggleableState.Indeterminate -> ToggleableState.On
@@ -425,6 +469,5 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
-        MyTrisStatusCheckBox()
     }
 }
