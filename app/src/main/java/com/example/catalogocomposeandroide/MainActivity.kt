@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -64,10 +65,67 @@ class MainActivity : ComponentActivity() {
                             MyTextBoxWithTextCompleted(it)
                         }
                     }*/
-                    Column {
+/*                    Column {
                         MyRadioButtonList(selected) { selected = it }
-                    }
+                    }*/
+                    MyBadgeBox()
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun BadgeBoxDemo() {
+    BottomNavigation {
+        BottomNavigationItem(
+            icon = {
+                BadgedBox(badge = { Badge { Text("8") } }) {
+                    Icon(
+                        Icons.Filled.Star,
+                        contentDescription = "Favorite"
+                    )
+                }
+
+            },
+            selected = false,
+            onClick = {})
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+
+fun MyBadgeBox() {
+    BadgedBox(
+        badge = { Badge(content = { Text(text = "16") }, backgroundColor = Color.Blue,
+        contentColor = Color.Green) }, modifier = Modifier.padding(16.dp),
+    ) {
+        Icon(imageVector = Icons.Default.Star, contentDescription = "")
+    }
+}
+
+
+@Composable
+fun MyCard() {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            elevation = 12.dp,
+            shape = MaterialTheme.shapes.medium,
+            backgroundColor = Color.Red,
+            contentColor = Color.Green,
+            border = BorderStroke(10.dp, Color.Green)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(text = "Ejemplo card Uno")
+                Text(text = "Ejemplo card Dos")
+                Text(text = "Ejemplo card Tres")
             }
         }
     }
@@ -75,7 +133,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MyRadioButtonList(name: String, onItemSelected:(String) -> Unit) {
+fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             RadioButton(
@@ -469,5 +527,6 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
+        MyBadgeBox()
     }
 }
