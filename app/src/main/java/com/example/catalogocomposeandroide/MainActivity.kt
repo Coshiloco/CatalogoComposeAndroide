@@ -1,12 +1,14 @@
 package com.example.catalogocomposeandroide
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,32 +49,56 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-/*                    var myText by rememberSaveable { mutableStateOf("Pablo")}
-
-                    MyTextFieldState(myText) {
-                        myText = it
-                    }*/
-/*                    var myOptions = getOptions(titles = listOf(
-                        "Aris",
-                        "Ejemplo",
-                        "Pablo",
-                        "MacDonalls",
-                        "De locos",
-                        "Que cojones"
-                    ))
-                    Column {
-                        myOptions.forEach {
-                            MyTextBoxWithTextCompleted(it)
-                        }
-                    }*/
-/*                    Column {
-                        MyRadioButtonList(selected) { selected = it }
-                    }*/
-                    MyBadgeBox()
+                    SimpleRecycleerview()
                 }
             }
         }
     }
+}
+
+@Composable
+fun MyDropDownMenu() {
+
+    var selectedText by rememberSaveable { mutableStateOf("") }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    val desserts = listOf("Helado", "Chocolate", "Cafe", "Fruta")
+
+    Column(modifier = Modifier.padding(20.dp)) {
+        OutlinedTextField(value = selectedText,
+            onValueChange = {selectedText = it},
+            enabled = false,
+            readOnly = true,
+            modifier = Modifier
+                .clickable { expanded = true }
+                .fillMaxWidth()
+
+        )
+
+        DropdownMenu(expanded = expanded,
+            onDismissRequest = { expanded = false  },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            desserts.forEach { dessert -> 
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    selectedText = dessert
+                }) {
+                    Text(text = dessert)
+                }
+            }
+        }
+
+
+    }
+
+
+}
+
+@Composable
+fun MyDivider() {
+    Divider(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 16.dp), color = Color.Red)
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -135,22 +161,22 @@ fun MyCard() {
 @Composable
 fun MyRadioButtonList(name: String, onItemSelected: (String) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        Row(modifier = Modifier.padding(8.dp)) {
             RadioButton(
                 selected = name == "Pablo", onClick = { onItemSelected("Pablo") })
             Text(text = "Pablo", modifier = Modifier.padding(12.dp))
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        Row(modifier = Modifier.padding(8.dp)) {
             RadioButton(
                 selected = name == "Aris", onClick = { onItemSelected("Aris") })
             Text(text = "Aris", modifier = Modifier.padding(12.dp))
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        Row(modifier = Modifier.padding(8.dp)) {
             RadioButton(
                 selected = name == "Pepe", onClick = { onItemSelected("Pepe") })
             Text(text = "Pepe", modifier = Modifier.padding(12.dp))
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        Row(modifier = Modifier.padding(8.dp)) {
             RadioButton(
                 selected = name == "Manuel", onClick = { onItemSelected("Manuel") })
             Text(text = "Manuel", modifier = Modifier.padding(12.dp))
@@ -527,6 +553,5 @@ fun DefaultPreview() {
         MyTextFieldState(myText) {
             myText = it
         }*/
-        MyBadgeBox()
     }
 }
