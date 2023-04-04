@@ -1,9 +1,7 @@
 package com.example.catalogocomposeandroide
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -39,6 +37,33 @@ fun SimpleRecycleerview() {
         }
         items(mylist) {
             Text(text = "Hola me llamo $it")
+        }
+    }
+}
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SuperHeroStickyView() {
+    val context = LocalContext.current
+    val superhero: Map<String, List<SuperHero>> = getSuperheroes().groupBy { it.publisher }
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        superhero.forEach { (publisher, mysuperheroes) ->
+            stickyHeader {
+                Text(
+                    text = publisher,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .background(Color.LightGray),
+                    fontSize = 20.sp
+                )
+            }
+            items(mysuperheroes) { superhero ->
+                ItemHero(superHero = superhero) {
+                    Toast.makeText(context, it.superheroName, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 }
