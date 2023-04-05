@@ -43,7 +43,7 @@ fun MyRangeSlider() {
         var currentRange by rememberSaveable { mutableStateOf(0..100) }
 
         RangeSlider(
-            values = currentRange.first.toFloat()..currentRange.last.toFloat(),
+            value = currentRange.first.toFloat()..currentRange.last.toFloat(),
             onValueChange = { currentRange = it.start.toInt()..it.endInclusive.toInt() },
             valueRange = 0f..40f
         )

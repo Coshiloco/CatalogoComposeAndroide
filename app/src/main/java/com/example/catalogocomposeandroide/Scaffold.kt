@@ -7,13 +7,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material.*
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -32,7 +32,7 @@ fun ScaffoldExample() {
                 )
             }
         }
-    }, scaffoldState = scaffoldState) {
+    }, scaffoldState = scaffoldState, bottomBar = { MyBottomNavigation()}) {
 
     }
 }
@@ -58,4 +58,30 @@ fun MyTopAppBar(onClickIcon: (String) -> Unit) {
             }
         }
     )
+}
+
+
+@Composable
+fun MyBottomNavigation() {
+    var index by rememberSaveable { mutableStateOf(0) }
+    BottomNavigation(backgroundColor = Color.Magenta, contentColor = Color.White) {
+        BottomNavigationItem(
+            icon = { Icon(imageVector = Icons.Filled.Home, contentDescription = "Home") },
+            label = { Text(text = "Home") },
+            selected = index == 0,
+            onClick = { index = 0 }
+        )
+        BottomNavigationItem(
+            icon = { Icon(imageVector = Icons.Filled.Favorite, contentDescription = "Fav") },
+            label = { Text(text = "Fav") },
+            selected = index == 1,
+            onClick = { index = 1 }
+        )
+        BottomNavigationItem(
+            icon = { Icon(imageVector = Icons.Filled.Person, contentDescription = "Person") },
+            label = { Text(text = "Person") },
+            selected = index == 2,
+            onClick = { index = 2 }
+        )
+    }
 }
