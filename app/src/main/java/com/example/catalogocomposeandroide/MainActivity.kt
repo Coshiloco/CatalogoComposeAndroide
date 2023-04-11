@@ -1,8 +1,6 @@
 package com.example.catalogocomposeandroide
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -19,7 +17,6 @@ import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,6 +34,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.catalogocomposeandroide.model.Routes
 import com.example.catalogocomposeandroide.ui.theme.CatalogoComposeAndroideTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,7 +54,39 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ScaffoldExample()
+                    val navigationController = rememberNavController()
+                    NavHost(
+                        navController = navigationController,
+                        startDestination = Routes.ScreenOne.route
+                    ) {
+                        composable(Routes.ScreenOne.route) {
+                            ScreenOne(navigationController)
+                        }
+                        composable(Routes.ScreenTwo.route) {
+                            ScreenTwo(navigationController)
+                        }
+                        composable(Routes.ScreenThree.route) {
+                            ScreenThree(navigationController)
+                        }
+                        composable(
+                            Routes.ScreenFour.route,
+                            arguments = listOf(navArgument("age") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            ScreenFour(
+                                navigationController,
+                                backStackEntry.arguments?.getInt("age") ?: 0
+                            )
+                        }
+                        composable(
+                            Routes.ScreenFive.route,
+                            arguments = listOf(navArgument("name") { defaultValue = "Pepe" })
+                        ) { backStackEntry ->
+                            ScreenFive(
+                                navigationController,
+                                backStackEntry.arguments?.getString("name") ?: "Pablo"
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -67,7 +102,7 @@ fun MyDropDownMenu() {
 
     Column(modifier = Modifier.padding(20.dp)) {
         OutlinedTextField(value = selectedText,
-            onValueChange = {selectedText = it},
+            onValueChange = { selectedText = it },
             enabled = false,
             readOnly = true,
             modifier = Modifier
@@ -76,11 +111,12 @@ fun MyDropDownMenu() {
 
         )
 
-        DropdownMenu(expanded = expanded,
-            onDismissRequest = { expanded = false  },
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
             modifier = Modifier.fillMaxWidth()
         ) {
-            desserts.forEach { dessert -> 
+            desserts.forEach { dessert ->
                 DropdownMenuItem(onClick = {
                     expanded = false
                     selectedText = dessert
@@ -98,9 +134,11 @@ fun MyDropDownMenu() {
 
 @Composable
 fun MyDivider() {
-    Divider(modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 16.dp), color = Color.Red)
+    Divider(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp), color = Color.Red
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -127,8 +165,13 @@ fun BadgeBoxDemo() {
 
 fun MyBadgeBox() {
     BadgedBox(
-        badge = { Badge(content = { Text(text = "16") }, backgroundColor = Color.Blue,
-        contentColor = Color.Green) }, modifier = Modifier.padding(16.dp),
+        badge = {
+            Badge(
+                content = { Text(text = "16") }, backgroundColor = Color.Blue,
+                contentColor = Color.Green
+            )
+        },
+        modifier = Modifier.padding(16.dp),
     ) {
         Icon(imageVector = Icons.Default.Star, contentDescription = "")
     }
